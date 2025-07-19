@@ -6,3 +6,7 @@ flowbite
 day3
 Hooks: Prebuilt function of react. UseState, useEffect, useReference always starts with 'use'.
 basnetmanish089@gmail.com
+
+day 4
+React Loops: 
+for, do while, for each, (map)-> important, for of

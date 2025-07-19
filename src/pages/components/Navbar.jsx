@@ -2,7 +2,7 @@ function Navbar () {
     return (
       <nav className=" container mx-auto  flex justify-between items-center">
   <div className="flex w-100 h-full flex-2 gap-5 items-center">
-    <img className="w-24" src="https://www.boat-lifestyle.com/cdn/shop/files/boAt_logo_black_24889e30-925c-4185-a028-9fef497a8e44.svg?v=1732879339" alt srcSet />
+    <img className="w-24" src="https://www.boat-lifestyle.com/cdn/shop/files/boAt_logo_black_24889e30-925c-4185-a028-9fef497a8e44.svg?v=1732879339" />
     <ul className="flex  flex-row flex-nowrap gap-10 items-center ">
       <li className="relative h-12 parent-cat ">
         <div className=" h-full flex flex-col items-center justify-center">
