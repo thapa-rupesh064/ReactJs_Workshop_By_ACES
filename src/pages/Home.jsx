@@ -11,7 +11,7 @@ function Home() {
     if (response.status == 200) {
       setBlogs(response.data);
     } else {
-      alert("Error aayoo !!!");
+      alert("Error aayoo !!!");  // 4
     }
   }
   useEffect(() => {
