@@ -1,27 +1,28 @@
-import {BrowserRouter, Routes,Route} from 'react-router-dom'
-import Home from './pages/Home';
-// import Create from './pages/Create';
-// import Edit from './pages/Edit';
-// import Blog from './pages/Blog';
-// import Navabr from './pages/components/Navbar';
-// import Card from './pages/components/card';
-// import LearningUseState from './pages/LearningUseState';
+import {BrowserRouter, Routes, Route} from 'react-router-dom'
+import Home from '../pages/Home'
+import Create from '../pages/Create'
+import Edit from '../pages/Edit'
+import LearnUseState from '../pages/UseState'
+import Single from '../pages/Single'
 
-// Project - CRUD
 function App() {
+
+
+
   return (
-    <BrowserRouter>
-    <Routes>
-       <Route path='/' element={<Home/>}/>
-       {/* <Route path = '/create' element = {<Create/>}/>
-       <Route path = '/blog' element = {<Blog/>}/>
-       <Route path = '/edit' element = {<Edit/>}/>
-       <Route path = '/learning-usestate' element={<LearningUseState/>}/> */}
-    </Routes>
-    </BrowserRouter>
+      <BrowserRouter>
+        <Routes>
+          <Route path='/' element={<Home />}/>
+          <Route path='/create' element={<Create />}/>
+          <Route path='/edit' element={<Edit />}/>
+          <Route path='/single/:id' element={<Single/>}/>
+          <Route path='edit/:id' element={<Edit/>}/>
+          <Route path='/usestate' element={<LearnUseState />}/>
+
+        </Routes>
+      </BrowserRouter>
+      
   )
 }
-/*
-*/
-export default App;
 
+export default App
