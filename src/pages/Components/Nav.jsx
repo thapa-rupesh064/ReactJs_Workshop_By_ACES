@@ -1,6 +1,11 @@
+import { useNavigate } from "react-router-dom";
+
 function NavBar() {
+  const nav = useNavigate();
+  nav("/create");
+
   return (
-    <>
+
       <nav className="bg-white border-gray-200 py-2.5 dark:bg-gray-900 ">
         <div className="flex flex-wrap items-center justify-between max-w-screen-xl px-4 mx-auto">
           <a href="#" className="flex items-center">
@@ -110,8 +115,5 @@ function NavBar() {
           </div>
         </div>
       </nav>
-    </>
-  );
-}
-
+)};
 export default NavBar;

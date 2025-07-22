@@ -1,28 +1,38 @@
-import { useParams } from "react-router-dom";
+import { useState } from "react";
 import NavBar from "./Components/Nav";
+import axios from "axios";
+import { Navigate } from "react-router-dom";
 
-function Edit() {
-  const data = useParams()
+function Create() {
   const [title, setTitle] = useState("");
   const [subtitle, setSubtitle] = useState("");
   const [description, setDescription] = useState("");
   const [image, setImage] = useState("");
-  function sentEditdata(e){
-    e.preventDefault()
-    axios.put("https://687af358abb83744b7ee4679.mockapi.io/blogs" + data.id, {
-      title : title,
-      subtitle: subtitle,
-      description : description,
-      image : image
-    })
-    if(Response.status == 200){
-      navigate("single/" + data.id)
+  async function sentDataToBackend(e) {
+    e.preventDefault();
+    const response = await axios.post(
+      "https://687af358abb83744b7ee4679.mockapi.io/blogs",
+      {
+        title: title,
+        subtitle: subtitle,
+        description: description,   // java script object
+        image: image,
+      }
+      
+    );
+    console.log(response)
+    if(response.status == 201){
+      Navigate("/")
     }else{
-      alert("Error happened")
+      alert("Error aayo !!!")
     }
+    console.log("Response", response)
   }
   return (
     <>
+
+      <NavBar />
+
       <div>
         <meta charSet="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -33,7 +43,7 @@ function Edit() {
           </h1>
         <form onSubmit={sentDataToBackend} 
            
-            className="p-8 max-w-2xl mx-auto bg-white p-6 rounded-lg shadow-md">
+            className="p-8 max-w-2xl mx-auto bg-whiterounded-lg shadow-md">
             {/* Title */}
             <div className="mb-4">
               <label
@@ -111,7 +121,7 @@ function Edit() {
                 type="submit"
                 className="bg-blue-600 text-white px-6 py-2.5 rounded-md font-semibold hover:bg-blue-700 transition"
               >
-                Edit Post
+                Create Post
               </button>
             </div>
         </form>
@@ -121,4 +131,4 @@ function Edit() {
   );
 }
 
-export default Edit;
+export default Create;

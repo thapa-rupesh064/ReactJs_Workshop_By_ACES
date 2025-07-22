@@ -1,49 +1,56 @@
-import { useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import NavBar from "./Components/Nav";
 import axios from "axios";
-import { Navigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 
-function Create() {
+function Edit() {
+  var param = useParams();
+  const [blog, setBlog] = useState([])
+  async function fetchBlog(){
+    const response = await axios.get("https://687af358abb83744b7ee4679.mockapi.io/blogs/" + param.id)
+    console.log(response);
+    setBlog(response.data)
+  }
+  useEffect(()=> {
+    fetchBlog();
+  },[])
+  const navigate = useNavigate();
   const [title, setTitle] = useState("");
   const [subtitle, setSubtitle] = useState("");
   const [description, setDescription] = useState("");
   const [image, setImage] = useState("");
-  async function sentDataToBackend(e) {
+  
+  async function editBlog(e) {
     e.preventDefault();
-    const response = await axios.post(
-      "https://687af358abb83744b7ee4679.mockapi.io/blogs",
-      {
-        title: title,
-        subtitle: subtitle,
-        description: description,   // java script object
-        image: image,
+    const response  = await axios.put(
+      "https://687af358abb83744b7ee4679.mockapi.io/blogs" + param.id, {
+        title, 
+        subtitle,
+        description, 
+        image,
       }
-      
-    );
-    console.log(response)
-    if(response.status == 201){
-      Navigate("/")
-    }else{
-      alert("Error aayo !!!")
-    }
-    console.log("Response", response)
+    )
+  }
+  if (response.status == 200){
+    alert("Editted successfully !");
+    navigate("/single" + param.id)
+  }else{
+    alert("Error aayo !!!");
   }
   return (
     <>
-
       <NavBar />
 
       <div>
-        <meta charSet="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Add New Blog Post</title>
+        <title>Edit Blog Post</title>
         <section className="flex-grow container mx-auto p-6">
           <h1 className="text-3xl font-bold text-gray-800 mb-6 text-center">
-            Create a New Blog Post
+            Edit Blog Post
           </h1>
-        <form onSubmit={sentDataToBackend} 
-           
-            className="p-8 max-w-2xl mx-auto bg-white p-6 rounded-lg shadow-md">
+          <form
+            className="max-w-2xl mx-auto bg-white p-6 rounded-lg shadow-md"
+            onSubmit={editBlog}
+          >
             {/* Title */}
             <div className="mb-4">
               <label
@@ -58,11 +65,13 @@ function Create() {
                 name="title"
                 required
                 className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                placeholder="Enter blog title"
-                onChange={(e) => setTitle(e.target.value)}
+                defaultValue={blog.title}
+                onChange={(e) => {
+                  setTitle(e.target.value);
+                }}
               />
             </div>
-            {/*image*/}
+            {/* Title */}
             <div className="mb-4">
               <label
                 htmlFor="subtitle"
@@ -76,10 +85,13 @@ function Create() {
                 name="subtitle"
                 required
                 className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                placeholder="Enter blog title"
-                onChange={(e) => setSubtitle(e.target.value)}
+                defaultValue={blog.subtitle}
+                onChange={(e) => {
+                  setSubTitle(e.target.value);
+                }}
               />
             </div>
+            {/* Image */}
             <div className="mb-4">
               <label
                 htmlFor="image"
@@ -93,8 +105,10 @@ function Create() {
                 name="image"
                 required
                 className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                placeholder="Enter image url"
-                onChange={(e) => setImage(e.target.value)}
+                defaultValue={blog.image}
+                onChange={(e) => {
+                  setImage(e.target.value);
+                }}
               />
             </div>
             {/* description */}
@@ -111,8 +125,10 @@ function Create() {
                 required
                 className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 placeholder="Write your blog content here"
-                onChange={(e) => setDescription(e.target.value)}
-                defaultValue={""}
+                defaultValue={blog.description}
+                onChange={(e) => {
+                  setDesc(e.target.value);
+                }}
               />
             </div>
             {/* Submit Button */}
@@ -121,14 +137,14 @@ function Create() {
                 type="submit"
                 className="bg-blue-600 text-white px-6 py-2.5 rounded-md font-semibold hover:bg-blue-700 transition"
               >
-                Create Post
+                Confirm Changes
               </button>
             </div>
-        </form>
+          </form>
         </section>
       </div>
     </>
   );
 }
 
-export default Create;
+export default Edit;
