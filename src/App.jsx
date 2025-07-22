@@ -15,9 +15,8 @@ function App() {
         <Routes>
           <Route path='/' element={<Home />}/>
           <Route path='/create' element={<Create />}/>
-          <Route path='/edit' element={<Edit />}/>
+          <Route path='edit/blogs/:id' element={<Edit/>}/>
           <Route path='/single/:id' element={<Single/>}/>
-          <Route path='edit/:id' element={<Edit/>}/>
           <Route path='/usestate' element={<LearnUseState />}/>
 
         </Routes>

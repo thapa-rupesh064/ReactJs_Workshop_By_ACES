@@ -1,13 +1,15 @@
 import { useState } from "react";
 import NavBar from "./Components/Nav";
 import axios from "axios";
-import { Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function Create() {
+  const navigate = useNavigate("");
   const [title, setTitle] = useState("");
   const [subtitle, setSubtitle] = useState("");
   const [description, setDescription] = useState("");
   const [image, setImage] = useState("");
+
   async function sentDataToBackend(e) {
     e.preventDefault();
     const response = await axios.post(
@@ -15,22 +17,20 @@ function Create() {
       {
         title: title,
         subtitle: subtitle,
-        description: description,   // java script object
+        description: description, // java script object
         image: image,
       }
-      
     );
-    console.log(response)
-    if(response.status == 201){
-      Navigate("/")
-    }else{
-      alert("Error aayo !!!")
+    console.log(response);
+    if (response.status == 201) {
+      navigate("/");
+    } else {
+      alert("Error aayo !!!");
     }
-    console.log("Response", response)
+    console.log("Response", response);
   }
   return (
     <>
-
       <NavBar />
 
       <div>
@@ -41,9 +41,10 @@ function Create() {
           <h1 className="text-3xl font-bold text-gray-800 mb-6 text-center">
             Create a New Blog Post
           </h1>
-        <form onSubmit={sentDataToBackend} 
-           
-            className="p-8 max-w-2xl mx-auto bg-whiterounded-lg shadow-md">
+          <form
+            onSubmit={sentDataToBackend}
+            className="p-8 max-w-2xl mx-auto bg-whiterounded-lg shadow-md"
+          >
             {/* Title */}
             <div className="mb-4">
               <label
@@ -124,7 +125,7 @@ function Create() {
                 Create Post
               </button>
             </div>
-        </form>
+          </form>
         </section>
       </div>
     </>
