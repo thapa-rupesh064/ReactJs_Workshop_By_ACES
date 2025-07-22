@@ -14,6 +14,8 @@ function Single() {
     if (resp.status == 200) {
       alert("Deleted Successfully !!!");
       navigate("/");
+    }else{
+      alert("Error Aayo !!!");
     }
   }
 
@@ -35,6 +37,7 @@ function Single() {
 
   return (
     <>
+    <title>{blog.title}</title>
       <NavBar />
 
       <div className="bg-white font-sans leading-normal tracking-normal">
@@ -79,10 +82,10 @@ function Single() {
       transition-all duration-300 ease-in-out
     "
           >
-            Edit Blog
+            Deleter Blog
           </button>
+          <Link to={"/edit/blogs" + blog.id}>
              <button
-            onClick={editBlog}
             className="
       bg-red-100 text-red-600 
       px-6 py-2 rounded-full font-semibold
@@ -93,6 +96,7 @@ function Single() {
           >
             Edit Blog
           </button>
+          </Link>
 
         </div>
       </div>

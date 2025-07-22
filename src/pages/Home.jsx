@@ -8,7 +8,7 @@ function Home() {
 
   async function fetchBlogs() {
     const response = await axios.get(
-      "https://687af350abb83744b7ee4634.mockapi.io/blogs"
+      "https://687af358abb83744b7ee4679.mockapi.io/blogs"
     );
     if (response.status == 200) {
       setBlogs(response.data);
@@ -18,12 +18,13 @@ function Home() {
   }
 
   useEffect(() => {
-    // ()=>{}  or function(){}   anonymous funcion, callback function can be used
+    // ()=>{}  or function(){}  , anonymous funcion or callback function can be used
     fetchBlogs();
   }, []); // []     Dependency Array
 
   return (
     <>
+    <title>BLog management system</title>
       <NavBar />
 
       <div className="flex flex-row flex-wrap justify-around">
