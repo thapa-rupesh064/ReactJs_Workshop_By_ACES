@@ -4,39 +4,63 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 
 function Edit() {
-  var param = useParams();
-  const [blog, setBlog] = useState([])
-  async function fetchBlog(){
-    const response = await axios.get("https://687af358abb83744b7ee4679.mockapi.io/blogs/" + param.id)
-    console.log(response);
-    setBlog(response.data)
-  }
-  useEffect(()=> {
-    fetchBlog();
-  },[])
+  const { id } = useParams();
   const navigate = useNavigate();
+
+  // Initial state
   const [title, setTitle] = useState("");
   const [subtitle, setSubtitle] = useState("");
   const [description, setDescription] = useState("");
   const [image, setImage] = useState("");
-  
+
+  // Fetch existing blog
+  async function fetchBlog() {
+    try {
+      const response = await axios.get(
+        "https://687af358abb83744b7ee4679.mockapi.io/blogs/" + id
+      );
+      if (response.status === 200) {
+        const blog = response.data;
+        setTitle(blog.title);
+        setSubtitle(blog.subtitle);
+        setDescription(blog.description);
+        setImage(blog.image);
+      }
+    } catch (err) {
+      console.error("Error fetching blog:", err);
+      alert("Error loading blog");
+    }
+  }
+
+  useEffect(() => {
+    fetchBlog();
+  }, []);
+
+  // Edit blog handler
   async function editBlog(e) {
     e.preventDefault();
-    const response  = await axios.put(
-      "https://687af358abb83744b7ee4679.mockapi.io/blogs" + param.id, {
-        title, 
-        subtitle,
-        description, 
-        image,
+    try {
+      const response = await axios.put(
+        "https://687af358abb83744b7ee4679.mockapi.io/blogs/" + id,
+        {
+          title,
+          subtitle,
+          description,
+          image,
+        }
+      );
+      if (response.status === 200) {
+        alert("Edited successfully!");
+        navigate("/single/" + id); // Add slash!
+      } else {
+        alert("Error occurred while editing");
       }
-    )
+    } catch (err) {
+      console.error("Error updating blog:", err);
+      alert("Request failed");
+    }
   }
-  if (response.status == 200){
-    alert("Editted successfully !");
-    navigate("/single" + param.id)
-  }else{
-    alert("Error aayo !!!");
-  }
+
   return (
     <>
       <NavBar />
@@ -64,14 +88,13 @@ function Edit() {
                 id="title"
                 name="title"
                 required
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
                 className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                defaultValue={blog.title}
-                onChange={(e) => {
-                  setTitle(e.target.value);
-                }}
               />
             </div>
-            {/* Title */}
+
+            {/* Subtitle */}
             <div className="mb-4">
               <label
                 htmlFor="subtitle"
@@ -84,34 +107,32 @@ function Edit() {
                 id="subtitle"
                 name="subtitle"
                 required
+                value={subtitle}
+                onChange={(e) => setSubtitle(e.target.value)}
                 className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                defaultValue={blog.subtitle}
-                onChange={(e) => {
-                  setSubTitle(e.target.value);
-                }}
               />
             </div>
+
             {/* Image */}
             <div className="mb-4">
               <label
                 htmlFor="image"
                 className="block text-gray-700 font-semibold mb-2"
               >
-                Image
+                Image URL
               </label>
               <input
                 type="text"
                 id="image"
                 name="image"
                 required
+                value={image}
+                onChange={(e) => setImage(e.target.value)}
                 className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                defaultValue={blog.image}
-                onChange={(e) => {
-                  setImage(e.target.value);
-                }}
               />
             </div>
-            {/* description */}
+
+            {/* Description */}
             <div className="mb-4">
               <label
                 htmlFor="description"
@@ -123,14 +144,13 @@ function Edit() {
                 id="description"
                 name="description"
                 required
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
                 className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 placeholder="Write your blog content here"
-                defaultValue={blog.description}
-                onChange={(e) => {
-                  setDesc(e.target.value);
-                }}
               />
             </div>
+
             {/* Submit Button */}
             <div className="text-center">
               <button
